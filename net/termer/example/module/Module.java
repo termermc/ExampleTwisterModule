@@ -82,7 +82,25 @@ public class Module implements TwisterModule {
 		// Shutdown is a good time to save
 		// files and other such things as well.
 		
-		// TODO
+		Twister.current().removeRequestHandler(
+				Twister.current().getDefaultDomain(),
+				"/hello/",
+				Method.GET);
+		
+		Twister.current().removeRequestHandler(
+				Twister.current().getDefaultDomain(),
+				"/shutdown/",
+				Method.GET);
+		
+		Twister.current().removeRequestHandler(
+				Twister.current().getDefaultDomain(),
+				"/",
+				Method.GET);
+		
+		Twister.current().removeRequestHandler(
+				Twister.current().getDefaultDomain(),
+				"/",
+				Method.POST);
 		
 		// Twister.current() returns the
 		// current instance of Twister.
