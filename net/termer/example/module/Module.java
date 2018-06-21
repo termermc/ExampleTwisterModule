@@ -1,5 +1,6 @@
 package net.termer.example.module;
 
+import net.termer.example.documents.ExampleDocumentProcessor;
 import net.termer.example.module.handler.FormPageHandler;
 import net.termer.example.module.handler.FormPostHandler;
 import net.termer.example.module.handler.HelloWorldPageHandler;
@@ -19,6 +20,8 @@ import net.termer.twister.utils.Method;
  *
  */
 public class Module implements TwisterModule {
+	
+	private ExampleDocumentProcessor exampleDocProcessor = new ExampleDocumentProcessor();
 	
 	@Override
 	public void initializeModule(Twister instance) {
@@ -56,6 +59,16 @@ public class Module implements TwisterModule {
 				new FormPostHandler(),
 				// Handle the POST of /
 				Method.POST);
+		
+		// Register DocumentProcessors
+		// DocumentProcessors have the ability to manipulate
+		// static documents before they get sent to the browser
+		instance.addDocumentProcessor(instance.getDefaultDomain(), exampleDocProcessor);
+		
+		// Registering DocumentProcessors with addDocumentProcessor() only applies
+		// to the actual documents, not the domain top and bottom rendered around
+		// the documents. To register a DocumentProcessor for a domain's top or bottom,
+		// use addTopDocumentProcessor() and addBottomDocumentProcessor(), respectively
 		
 		
 		instance.logInfo("I am the Example Module, and I am starting up!");
@@ -102,6 +115,11 @@ public class Module implements TwisterModule {
 				"/",
 				Method.POST);
 		
+		// Unregister DocumentProcessors
+		
+		Twister.current().removeDocumentProcessor(Twister.current().getDefaultDomain(), exampleDocProcessor);
+		
+		
 		// Twister.current() returns the
 		// current instance of Twister.
 		Twister.current().logInfo("I am the Example Module, and I am shutting down!");
@@ -112,7 +130,7 @@ public class Module implements TwisterModule {
 		// Return the version of Twister
 		// that this module is designed for.
 		
-		return 0.1;
+		return 0.2;
 	}
 	
 }
