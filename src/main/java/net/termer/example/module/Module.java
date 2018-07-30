@@ -5,6 +5,8 @@ import net.termer.example.module.handler.FormPageHandler;
 import net.termer.example.module.handler.FormPostHandler;
 import net.termer.example.module.handler.HelloWorldPageHandler;
 import net.termer.example.module.handler.ShutdownPageHandler;
+import net.termer.example.module.handler.WordBanningPreRequestHandler;
+import net.termer.example.module.route.ExampleRouteHandler;
 import net.termer.twister.Twister;
 import net.termer.twister.module.ModulePriority;
 import net.termer.twister.module.TwisterModule;
@@ -22,6 +24,8 @@ import net.termer.twister.utils.Method;
 public class Module implements TwisterModule {
 	
 	private ExampleDocumentProcessor exampleDocProcessor = new ExampleDocumentProcessor();
+	
+	private WordBanningPreRequestHandler wordBanningPreRequestHandler = new WordBanningPreRequestHandler();
 	
 	public void initializeModule(Twister instance) {
 		// Initialize the module, and get
@@ -69,6 +73,26 @@ public class Module implements TwisterModule {
 		// the documents. To register a DocumentProcessor for a domain's top or bottom,
 		// use addTopDocumentProcessor() and addBottomDocumentProcessor(), respectively
 		
+		// Register PreRequestHandlers
+		instance.addPreRequestHandler(
+				// Add a pre-request handler that cancels all requests
+				// that contain certain words.
+				// Pre-request handlers are called before every request,
+				// regardless of the path or domain.
+				wordBanningPreRequestHandler);
+		
+		// Register RouteHandlers
+		instance.addRouteHandler(
+				// Register the route handler for the default domain
+				instance.getDefaultDomain(),
+				
+				// Handle all paths starting with "/hello/",
+				// meaning it will handle "/hello/world" or
+				// "/hello/duke".
+				"/hello/*",
+				
+				new ExampleRouteHandler(),
+				Method.GET);
 		
 		instance.logInfo("I am the Example Module, and I am starting up!");
 	}
@@ -116,6 +140,15 @@ public class Module implements TwisterModule {
 		Twister.current().removeDocumentProcessor(Twister.current().getDefaultDomain(), exampleDocProcessor);
 		
 		
+		// Unregister PreRequestHandlers
+		
+		Twister.current().removePreRequestHandler(wordBanningPreRequestHandler);
+		
+		// Unregister RouteHandlers
+		
+		Twister.current().removeRouteHandler(Twister.current().getDefaultDomain(), "/hello/*", Method.GET);
+		
+		
 		// Twister.current() returns the
 		// current instance of Twister.
 		Twister.current().logInfo("I am the Example Module, and I am shutting down!");
@@ -125,7 +158,7 @@ public class Module implements TwisterModule {
 		// Return the version of Twister
 		// that this module is designed for.
 		
-		return 0.2;
+		return 1.0;
 	}
 	
 }
