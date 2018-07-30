@@ -6,7 +6,6 @@ import net.termer.twister.handler.RequestHandler;
 
 public class FormPostHandler implements RequestHandler {
 
-	@Override
 	public String handle(Request req, Response res) {
 		// Print the value of the input, if not null or blank
 		

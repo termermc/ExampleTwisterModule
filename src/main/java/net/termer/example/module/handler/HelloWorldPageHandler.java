@@ -11,7 +11,6 @@ import net.termer.twister.utils.Domain;
 
 public class HelloWorldPageHandler implements RequestHandler {
 
-	@Override
 	public String handle(Request req, Response res) {
 		// A good way to start a document is to make an empty String
 		// and start adding to it.

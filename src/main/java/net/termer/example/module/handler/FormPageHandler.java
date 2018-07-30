@@ -6,7 +6,6 @@ import net.termer.twister.handler.RequestHandler;
 
 public class FormPageHandler implements RequestHandler {
 
-	@Override
 	public String handle(Request req, Response res) {
 		// Send a form
 		return "<form method=\"POST\">"+

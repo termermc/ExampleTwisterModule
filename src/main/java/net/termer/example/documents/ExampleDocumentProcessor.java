@@ -11,7 +11,6 @@ import spark.Response;
 // sent to the browser.
 public class ExampleDocumentProcessor implements DocumentProcessor {
 	
-	@Override
 	public void process(HTMLDocumentResponse doc, Request req, Response res) {
 		// Replace all instances of "%name" in static documents with "John Doe"
 		doc.replace("%name", "John Doe");

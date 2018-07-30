@@ -23,7 +23,6 @@ public class Module implements TwisterModule {
 	
 	private ExampleDocumentProcessor exampleDocProcessor = new ExampleDocumentProcessor();
 	
-	@Override
 	public void initializeModule(Twister instance) {
 		// Initialize the module, and get
 		// the instance of the server.
@@ -74,21 +73,18 @@ public class Module implements TwisterModule {
 		instance.logInfo("I am the Example Module, and I am starting up!");
 	}
 	
-	@Override
 	public String moduleName() {
 		// Return the name of the module
 		
 		return "Example Module";
 	}
 	
-	@Override
 	public int modulePriority() {
 		// Return the module loading priority
 		
 		return ModulePriority.MEDIUM;
 	}
 	
-	@Override
 	public void shutdownModule() {
 		// When the module is shutdown,
 		// remove all RequestHandlers.
@@ -125,7 +121,6 @@ public class Module implements TwisterModule {
 		Twister.current().logInfo("I am the Example Module, and I am shutting down!");
 	}
 	
-	@Override
 	public double twiserVersion() {
 		// Return the version of Twister
 		// that this module is designed for.
